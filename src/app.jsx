@@ -4,55 +4,69 @@ var Section = require('./section');
 
 
 var App = React.createClass({
-  handleClick: function(selectedKey) {
-    // This should be changed to a ROUTING
-    if (selectedKey === 2){
-    	this.setState({allGames: false});
-    }else{
-    	this.setState({allGames: true});   
-    }
-  },
-  getInitialState: function(){
-    return { allGames: true,
-    		 gameList: []
-    	 }
-  },
+    handleClick: function(selectedKey) {
+        
+        // TODO:This should be changed to a ROUTING system
+        if (selectedKey === 2){
+            this.setState({allGames: false});
+        }else{
+            this.setState({allGames: true});   
+        }
+    },
+    whenClickSelectedGame : function(item){
+        var id = (event.target || event.srcElement).id;
+        var games = this.state.gameList;
 
-  componentDidMount: function() {
-  	console.log('MOUNT');
-     $.get('src/games.json', function(result) {  
-      if (this.isMounted()) {
+        if(games[id].selected){
+            games[id].selected = false;
+        }else{
+            games[id].selected = true;
+        }
+
         this.setState({
-          gameList : result.games
-        });
-      }
-    }.bind(this));
-  },
+            gameList : games
+        }); 
 
-  render: function() {
-    return (<div>
-    	<Menu
-    		whenItemSelected = {this.handleClick}
-    		titles = {this.props.titles}
-    	/>
-    	<Section
-    		gameList={this.state.gameList}
-    		allGames={this.state.allGames} 
-    	/>
-    	</div>    	)   
-		
-  }
+    },
+    getInitialState: function(){
+        return { 
+            allGames: true,
+            gameList: []
+        }
+    },
 
+    componentDidMount: function() {
+        $.get('src/games.json', function(result) {  
+            if (this.isMounted()) {
+                this.setState({
+                    gameList : result.games
+                });
+            }
+        }.bind(this));
+    },
+
+    render: function() {
+        return (<div>
+        <Menu
+        whenItemSelected = {this.handleClick}
+        titles = {this.props.titles}
+        />
+        <Section
+        whenClickSelectedGame = {this.whenClickSelectedGame}
+        gameList={this.state.gameList}
+        allGames={this.state.allGames} 
+        />
+        </div>)   
+    }
 });
 
 
 var menuOptions = {
-	titles : [
-	'All Games',
-	'My Games'
-	]
+    titles : [
+      'All Games',
+      'My Games'
+      ]
 }
 
-menuElement = React.createElement(App, menuOptions);
-React.render(menuElement, document.getElementById('app'));
-
+var appElement = React.createElement(App, menuOptions);
+React.render(appElement, document.getElementById('app'));

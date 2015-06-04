@@ -1,7 +1,12 @@
-.btn .caret {
-      margin-left: 5px;
-   }
-
+.delete-button {
+    margin-top:10px;   
+}
 .main {
 	margin:20px auto;
+}
+
+.game-title {
+   margin:10px; 
+   display:block;
+   float:left;
 }
