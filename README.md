@@ -1,6 +1,6 @@
 # kingApp
 
-Sample app using react, react-bootsrap and browserify.
+Sample app using react, react-bootstrap and browserify.
 
 <h3>Intructions</h3>
 
